@@ -1,18 +1,18 @@
 # Airflow Series - Setting Up for GCP Projects
 
-This repository sub-folder has the objective of provide the files necessary and training to set up a Docker with Airflow containing the configuration necessary to work with GCP Projects.
+This repository sub-folder has the objective of providing the files necessary and training to set up a Docker with Airflow containing the configuration necessary to work with GCP Projects.
 
 This training is assuming that you have basics Docker and Docker Composer knowledge.
 
-The traing aim to teach you how to UP docker containers (using CeleryExecutor) and setting up the Airflow to work with GCP projects.
+The training aims to teach you how to UP docker containers (using CeleryExecutor) and setting up the Airflow to work with GCP projects.
 
-We are using an existent [docker image](https://hub.docker.com/r/buzz84/docker-airflow) (see [git project](https://github.com/jjunior84/docker-airflow)) build by myself containing [Airflow 1.10.10](https://airflow.apache.org/docs/1.10.10/) with [Python 3.7](https://docs.python.org/3.7/) and setting up to br possible use RBAC interface
+We are using an existent [docker image](https://hub.docker.com/r/buzz84/docker-airflow) (see [git project](https://github.com/jjunior84/docker-airflow)) built by myself containing [Airflow 1.10.10](https://airflow.apache.org/docs/1.10.10/) with [Python 3.7](https://docs.python.org/3.7/) and setting up to be possible to use RBAC interface.
 
 Have Fun! :smiley:
 
 ## Project structure
 
-The training was design to explain the process of have the environment by project, assuming that all dag that you must be want to design is related with the same project, it is easy to organize that way.
+The training was design to explain the process of having the environment by project, assuming that all dag that you must want to design is related to the same project, it is easy to organize that way.
 
 Let´s look for **01_setting_up** project:
 

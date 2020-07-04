@@ -1,0 +1,14 @@
+{
+    "default_pool": {
+        "description": "Default pool",
+        "slots": 30
+    },
+    "general_pool": {
+        "description": "Pool used to be associated to general purpose tasks (dummy, branch, sensors, etc)",
+        "slots": 10
+    },
+    "bigquery_pool": {
+        "description": "Pool used to be associated to bigquery operator tasks",
+        "slots": 5
+    }
+}

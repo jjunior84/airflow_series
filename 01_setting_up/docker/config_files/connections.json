@@ -1,0 +1,20 @@
+[
+    {
+        "CONN_ID": "GCP_CONNECTION",
+        "CONN_URI": "",
+        "CONN_TYPE": "google_cloud_platform",
+        "CONN_HOST": "",
+        "CONN_LOGIN": "",
+        "CONN_PASSWORD": "",
+        "CONN_SCHEMA": "",
+        "CONN_PORT": "",
+        "CONN_EXTRA": {
+            "extra__jdbc__drv_path": "",
+            "extra__google_cloud_platform__scope": "https://www.googleapis.com/auth/cloud-platform",
+            "extra__google_cloud_platform__project": "gcp_buzz84_training", 
+            "extra__google_cloud_platform__key_path": "/usr/local/airflow/config/gcp_service_account.json",
+            "extra__jdbc__drv_clsname": "",
+            "extra__google_cloud_platform__keyfile_dict": ""
+        }
+    }
+]
