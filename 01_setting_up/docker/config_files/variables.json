@@ -4,7 +4,7 @@
     "PRJ_SETTING_UP_PARAMETERS":{
         "GCP_PROJECT_ID": "gcp_buzz84_training",
         "GCP_SERVICE_ACCOUNT_FILE": "/opt/airflow/config/gcp_service_account.json",
-        "GCP_SERVICE_ACCOUNT_ID": "owner_access@gcp_buzz84_training.iam.gserviceaccount.com",
+        "GCP_SERVICE_ACCOUNT_ID": "owner-access@gcp-buzz84-training.iam.gserviceaccount.com",
         "AIRFLOW_GCP_CONN": "GCP_CONNECTION"
     } 
 }
