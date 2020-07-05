@@ -30,7 +30,7 @@ Let´s look for **01_setting_up** project:
 
 ### docker-composer.yml
 
-The heart of our training, the composer file presents below is responsible by create our containers (all the four + dependency container)
+The heart of our training, the composer file presents below is responsible for creating our containers (all the four + dependency container)
 
 <details><summary>docker-composer.yml</summary>
 <span style="font-size:0.7em;">
@@ -183,12 +183,12 @@ services:
 </span>
 </details>
 
-I will not get deep in all points of the file, but small overview and detail the most relevant parts
+I will not get deep in all points of the file, but small overview and detail the most relevant parts.
 
 #### Database services
 This part is responsible to up two database services:
- - Redis would be database in memory to support message broker services (using standard port).
- - Postgres would be the database responsible to store Airflow metadata information, we are already setting the database name, user and password (using standard port).
+ - Redis would be a database in memory to support message broker services (using standard port).
+ - Postgres would be the database responsible to store Airflow metadata information, we are already setting the database name, user, and password (using standard port).
 
 <span style="font-size:0.7em;">
 
@@ -210,8 +210,7 @@ This part is responsible to up two database services:
 </span>
 
 #### Celery monitoring
-Once we are opting by use CeleryExecutor to run our Airflow tasks, We are using Flower as the tool for monitoring and administrating Celery cluster.
-Observe that this service has dependency of the redis service to start (that makes perfectly sense since without the database it is not possible have the workers working well)
+Once we are opting by use CeleryExecutor to run our Airflow tasks, We are using Flower as the tool for monitoring and administrating the Celery cluster. Observe that this service has the dependency on the Redis service to start (that makes perfect sense since without the database it is not possible to have the workers working well)
 
 <span style="font-size:0.7em;">
 
@@ -268,26 +267,27 @@ For the correct working of our Airflow environment based on CeleryExecutor, we s
 ```
 </span>
 
-- webserver: 
-    - depends on: it means that the service has dependency of postgres service to go start, as mentioned before, postgres will be our metadata repository.
-    - environment variables: Determine variables that will be used to when up the service and it is setting up options that really interfere in correct working of the services
-        - AIRFLOW__WEBSERVER__RBAC=true, setting that we want to used RBAC interface, since Airflow 1.10 was add the option to have a UI with more options, access control based in roles, modern, we are going to use it once that the Airflow next version (2.0) will be the only option available (=false would disable the RBAC interface)
-        - LOAD_EX=n, setting Airflow without load sample dags, Airflow have some sample DAGs to support new adventurer(=y would show the sample dags)
-        - FERNET_KEY, it is mainly used to encrypt connections in Airflow (it could be generate new fernet keys to be used)
-        - EXECUTOR=Celery, it determines that we want to use Celery executors in our Airflow environment
-        - POSTGRES_*, variables that determine user, password, database, host and port from postgres database service that Airflow will use as metadata base (it should fit with the postgres service configured previously).
-        -AIRFLOW__CORE__SQL_ALCHEMY_CONN: parameter used to set sel alchemy connection string,  it coud be observed that it is the same information of the postgres parameters.
-    - volumes: we use to map some folder or file from our local disk to a volume mounted into our docker container, it is really useful to have any change in your local environment instantlly reflected in your docker, we map for now:
-        - dags folder to the dags folder inside of airflow directory, it will permit you develop in you local environment and see your dag reflecting the changes
-        - resources folders to the resources folder inside of airflow directory, it is a good practice have a resource folder where you could use to keep the support files to your dags working well (as sql files, schemas, others ...)
-        - config_files folder to the configs folder inside of airflow directory, it will be explained i details further but it will contain files to support of setting up the Airflow environment with the necessary information to work in your projects
-        - scripts folder to the scripts folder inside of airflow directory, it will mounted the directory with the programs that will support the Airflow environment setup
-        - requirements.txt file to requirements.txt file inside of the root folde of your docker, the entry point of our container if detect this file will install the python dependencies inside of the file, very useful to set new packages that you want in your docker
-    - ports: indicates the port that will be used to the web service and for each port will mapping for your local machine, in this case, the webservice will use 8080 port and map to 8080 in you machine, if you already have some service using that port, it is necessary adjust that.
-    - command: webserver, it the command that will be executed as parameter for the entrypoint program, in this case, indicates webserver.
-    - healthcheck: it is a command to check if the webserver is already working, and it is set to do 3 tries of 30 seconds with intervals of 30 seconds, after this time the docker is set as unhealthy.
+- **webserver:**
+    - **depends on:** it means that the service has the dependency of Postgres service to go start, as mentioned before, Postgres will be our metadata repository.
+    - **environment variables:** Determine variables that will be used to when up the service and it is setting up options that really interfere in the correct working of the services
+        - AIRFLOW__WEBSERVER__RBAC=true, setting that we want to use RBAC interface, since Airflow 1.10 added the option to have a UI with more options, access control based in roles, modern, we are going to use it once that the Airflow next version (2.0) will be the only option available (=false would disable the RBAC interface).
+        - LOAD_EX=n, setting Airflow without load sample dags, Airflow has some sample DAGs to support new adventurer(=y would show the sample dags).
+        - FERNET_KEY, it is mainly used to encrypt connections in Airflow (it could generate new fernet keys to be used).
+        - EXECUTOR=Celery, it determines that we want to use Celery executors in our Airflow environment.
+        - POSTGRES_*, variables that determine user, password, database, host, and port from Postgres database service that Airflow will use as metadatabase (it should fit with the Postgres service configured previously).
+        - AIRFLOW__CORE__SQL_ALCHEMY_CONN: parameter used to set sqll alchemy connection string, it could be observed that it is the same information of the Postgres parameters.
+    - **volumes:** we use to map some folder or file from our local disk to a volume mounted into our docker container, it is really useful to have any change in your local environment instantly reflected in your docker, we map for now:
+        - dags folder to the dags folder inside of airflow directory, it will permit you to develop in your local environment and see your dag reflecting the changes.
+        - resources folders to the resources folder inside of the airflow directory, it is a good practice to have a resource folder where you could use to keep the support files to your dags working well (as SQL files, schemas, others ...).
+        - config_files folder to the configs folder inside of airflow directory, it will be explained i details further but it will contain files to support of setting up the Airflow environment with the necessary information to work in your projects.
+        - scripts folder to the scripts folder inside of airflow directory, it will mount the directory with the programs that will support the Airflow environment setup.
+        - requirements.txt file to requirements.txt file inside of the root folder of your docker, the entry point of our container if detecting this file will install the python dependencies inside of the file, very useful to set new packages that you want in your docker.
 
-    It was an extensive a really extensive explaination, but the next two follow the same principles, with few differences:
+    - **ports:** indicates the port that will be used to the web service and for each port will mapping for your local machine, in this case, the web service will use 8080 port and map to 8080 in your machine, if you already have some service using that port, it is necessary to adjust that.
+    - **command:** webserver, it the command that will be executed as a parameter for the entry point program, in this case, indicates webserver.
+    - **healthcheck:** it is a command to check if the webserver is already working, and it is set to do 3 tries of 30 seconds with intervals of 30 seconds, after this time the docker is set as unhealthy.
+
+    It was an extensive a really extensive explanation, but the next two follow the same principles, with few differences:
 
 <span style="font-size:0.7em;">
 
@@ -336,16 +336,16 @@ For the correct working of our Airflow environment based on CeleryExecutor, we s
 </span>
 
 The configuration is almost the same of the webserver for worker and schedule, with very few changes:
- - dependencies will change, where the worker depends on the webserver and scheduler depends on the worker to started
- - volumes: config_files and scripts folder are no longer necessary for this services, it will just use the webserver container to load the parameters (the metadata database is shared for all services)
- - ports and health check are no longer necessary too
- - commands: changes to adapt to each one of the services
+- dependencies will change, where the worker depends on the webserver and scheduler depends on the worker to start
+- volumes: config_files and scripts folder are no longer necessary for this services, it will just use the webserver container to load the parameters (the metadata database is shared for all services)
+- ports and health check are no longer necessary too
+- commands: changes to adapt to each one of the services
+
 
 ### **Config Files**
 
 #### variables.json
-We are going to have the variables that we want to load to our Airflow environment, that could be recovery inside of our dags and used them.
-I used to have a group of common variables that I used to have in all dags (like environment, resource folder path, email, slack parameters ...) and also, have a variable from the dag, where I used to have it as a dictionary, it is easy to parse inside of any dag and also avoid too much variables in your Airflow.
+We are going to have the variables that we want to load to our Airflow environment, which could be recovery inside of our dags and used them. I used to have a group of common variables that I used to have in all dags (like environment, resource folder path, email, slack parameters ...) and also, have a variable from the dag, where I used to have it as a dictionary, it is easy to parse inside of any dag and also avoid too many variables in your Airflow.
 
 <span style="font-size:0.7em;">
 
@@ -393,7 +393,7 @@ It is the same concept of variables but for connections, we are going to use thi
 </span>
 
 #### pools.json
-It is the same concept of variables but for pools, create or update pools that are used to limit the usage of resource of the Airflow, it means that the our task related with an specific pool will be managed accordingly with the capacity indicates in slots
+It is the same concept of variables but for pools, create or update pools that are used to limit the usage of resource of the Airflow, it means that our task-related with a specific pool will be managed accordingly with the capacity indicates in slots.
 
 <span style="font-size:0.7em;">
 
@@ -444,10 +444,10 @@ As soon as we are using RBAC user interface the access for the Airflow UI is con
 
 #### gcp_service_account.json
 It is the file used to connect with GCP services that will be referred into your connections or used by bash commands, this file could be generated into google cloud console [here, google page](https://cloud.google.com/iam/docs/service-accounts).
-For 
+ 
 
 <span style="font-size:0.7em;">
-some information was ommited by security reasons, use from your GCP project instead.
+some information was omitted by security reasons, use from your GCP project instead.
 
 ```json
 {
@@ -466,11 +466,12 @@ some information was ommited by security reasons, use from your GCP project inst
 </span>
 
 ### **Script Files**
-Airflow already have a command line tool that enable us to do a lot of things as for example create users, add variables, pools and connections and more...
+Airflow already has a command-line tool that enable us to do a lot of things as for example create users, add variables, pools and connections, and more...
 
-Unfortunately, some of this commands are not so practical as another, for example, we are able to load the json files with variables and and pools in batch, but for users and connections have to be performed one user or one connection each time.
+Unfortunately, some of this commands are not so practical as another, for example, we are able to load the JSON files with variables and pools in batch, but for users and connections have to be performed one user or one connection each time.
 
-The scripts bellow are used to turn this jobs easier for us, I will not explain each program but left the code here.
+The scripts below are used to turn these jobs easier for us, I will not explain each program but left the code here.
+
 
 <details><summary>airflow_create_connections.py</summary>
 <span style="font-size:0.7em;">
@@ -603,16 +604,75 @@ if __name__ == "__main__":
 </span>
 </details>
 
-## Running Container
+## Running Containers
 
-After have the project structure with all the files necessary and set up, it is time to run our docker compose file and up docker containers with all services.
+After having the project structure with all the files necessary and set up, it is time to run our docker-compose file and up docker containers with all services.
 
-Assuming that you are fine with the prerequisites, we will need pull the docker image with the necessary features to up the containers. we do that with running the command bellow in our favorite command tool.
+### Pull docker image
+
+Assuming that you are fine with the prerequisites, we will need to pull the docker image with the necessary features to up the containers. we do that with running the command bellow in our favorite command tool.
 
 ```
 docker pull buzz84/docker-airflow:latest
 ```
-It could take a while, I need to work in smaller image
+It could take a while, I need to work in a smaller image
 (sorry for that :disappointed: )
 
+### Up Docker Containers
 
+Once, we pull the image base for our containers, We will use the docker-compose command to up our services based on the docker-composer.yml file, so from your docker folder execute:
+
+```
+docker-compose -f "docker-composer.yml" up -d
+```
+If everything run well the containers will up in about 2 minutes, so you could do your first test. Open your browser and access the ***localhots:8080*** to check if the webserver is accessible. It will request username and password to access, do not worry, we are going to create the user.
+
+## Setting Airflow
+
+### Create Users
+
+This command will use the webserver docker container to execute our python program to create the users based on the file users.json
+```
+docker exec -ti $(docker ps -q --filter name=webserver) python ./scripts/airflow_create_users.py ./configs/users.json
+```
+![Users Created](./docs/users_created.png)
+ 
+ Now, you are able to connect in the Airflow UI with your user and password, congratulations.
+
+ ### Create Connections
+ 
+ Follow the same step from the process before, we are going to execute the python program to create the connections based on the file connections.json
+ ```
+docker exec -ti $(docker ps -q --filter name=webserver) python ./scripts/airflow_create_connections.py ./configs/connections.json
+```
+![Connections Created](./docs/connections_created.png)
+
+### Create Variables
+
+We are going to create the variables using airflow command and the file variables.json
+ ```
+docker exec -ti $(docker ps -q --filter name=webserver) airflow variables -i ./configs/variables.json
+```
+![Variables Created](./docs/variables_created.png)
+ 
+ ### Create Pools
+
+We are going to create the variables using airflow command and the file variables.json
+ ```
+docker exec -ti $(docker ps -q --filter name=webserver) airflow pool -i ./configs/pools.json
+```
+![Pools Created](./docs/pools_created.png)
+
+## Final Considerations
+
+This structure of usage for docker inside your projects could be useful to several situations and could be applied for Docker for other purposes.
+
+Never forget to update your config files, you will see that during the development of dags for your project will be necessary adjust or create new variables, connections, or pools, and have it updated is a good practice, the developer to work with the project will thank you.
+
+Think about automated scripts to up your containers and set your environment I have already use that and it saves me a lot of time.
+
+
+## Comming soon
+This training is the [first part](https://github.com/jjunior84/airflow_series/tree/master/01_setting_up) of a [Airflow Series](https://github.com/jjunior84/airflow_series/tree/master) tutorials.
+
+The next training will start from this point and intent to teach how to design dags using GCP (Google Cloud Platform).
