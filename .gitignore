@@ -44,4 +44,4 @@ nodeLanguageServer.*/**
 .mypy_cache/*
 
 #ignoring Service Account File
-01_setting_up/docker/config_files/bigquery_service_account.json
+01_setting_up/docker/config_files/gcp_service_account.json

@@ -1,0 +1,16 @@
+{
+        "buzz84": {
+            "role": "Admin",
+            "email": "buzz84@company.com",
+            "firstname": "Jonatas",
+            "lastname": "Junior",
+            "password": "admin"
+        },
+        "john_doe": {
+            "role": "User",
+            "email": "john_doe@company.com",
+            "firstname": "Jonatas",
+            "lastname": "Junior",
+            "password": "teste"
+        }
+}
